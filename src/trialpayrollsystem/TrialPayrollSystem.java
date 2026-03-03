@@ -437,5 +437,3 @@ public class TrialPayrollSystem {
         else return 200833.33 + (gross - 666667) * 0.35;
     }
 }
-
-dcvsdkjnvcjksdhbcs
