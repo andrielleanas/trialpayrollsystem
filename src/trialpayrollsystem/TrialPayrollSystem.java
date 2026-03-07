@@ -31,15 +31,16 @@ public class TrialPayrollSystem {
         }
 
         if (username.equals("employee")) {
-
-            System.out.println("\n1. Enter Employee Number");
+            
+            System.out.println("\nPlease choose an option below:");
+            System.out.println("1. Enter Employee Number");
             System.out.println("2. Exit");
             int option = sc.nextInt();
             sc.nextLine();
 
             if (option == 2) return;
 
-            System.out.print("Enter Employee Number: ");
+            System.out.print("\nEnter Employee Number: ");
             String empInput = sc.nextLine();
 
             showEmployeeInfo(empInput, empFile);
@@ -47,13 +48,16 @@ public class TrialPayrollSystem {
 
         else if (username.equals("payroll_staff")) {
 
-            System.out.println("\n1. Process Payroll");
+            System.out.println("\nPlease choose an option below:");
+            System.out.println("1. Process Payroll");
             System.out.println("2. Exit");
             int option = sc.nextInt();
             sc.nextLine();
             if (option == 2) return;
 
-            System.out.println("\n1. One Employee");
+            System.out.println();
+            System.out.println("Please choose an option below:");
+            System.out.println("1. One Employee");
             System.out.println("2. All Employees");
             System.out.println("3. Exit");
             int choice = sc.nextInt();
@@ -61,7 +65,7 @@ public class TrialPayrollSystem {
             if (choice == 3) return;
 
             if (choice == 1) {
-                System.out.print("Enter Employee Number: ");
+                System.out.print("\nEnter Employee Number: ");
                 String empInput = sc.nextLine();
                 processEmployee(empInput, empFile, attFile);
             } else if (choice == 2) {
@@ -70,7 +74,7 @@ public class TrialPayrollSystem {
         }
     }
 
-    // ================= EMPLOYEE SIDE (INFO) =================
+    // if the username is employee
     static void showEmployeeInfo(String empNo, String empFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(empFile))) {
 
@@ -101,7 +105,7 @@ public class TrialPayrollSystem {
         }
     }
 
-    // ================= PAYROLL STAFF: ALL EMPLOYEES =================
+    // if the username is payroll_staff ++ if chose to PROCESS ALL EMPLOYEE
     static void processAllEmployees(String empFile, String attFile) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(empFile))) {
@@ -126,7 +130,7 @@ public class TrialPayrollSystem {
         }
     }
 
-    // ================= PROCESS EMPLOYEE (JUNE TO DEC) =================
+    // if the username is payroll_staff ++ if chose to PROCESS ONE EMPLOYEE
     static void processEmployee(String inputEmpNo, String empFile, String attFile) {
 
         String empNo = "";
@@ -181,7 +185,6 @@ public class TrialPayrollSystem {
         System.out.println("Employee #: " + empNo);
         System.out.println("Employee Name: " + lastName + ", " + firstName);
         System.out.println("Birthday: " + birthday);
-        System.out.println("Hourly Rate: " + rate);
 
         // Month buckets: June(6) to December(12)
         double[] hours1 = new double[13]; // index by month
@@ -249,14 +252,14 @@ public class TrialPayrollSystem {
 
             System.out.println("\n---------- " + monthName(month) + " ----------");
 
-            System.out.println("Cutoff: " + monthName(month) + " 1-15");
-            System.out.println("Hours: " + hours1[month]);
-            System.out.println("Gross: " + gross1);
-            System.out.println("Net: " + net1);
+            System.out.println("Cutoff Date: " + monthName(month) + " 1-15");
+            System.out.println("Total Hours Worked: " + hours1[month]);
+            System.out.println("Gross Pay: " + gross1);
+            System.out.println("Net Pay: " + net1);
 
-            System.out.println("\nCutoff: " + monthName(month) + " 16-" + lastDay);
-            System.out.println("Hours: " + hours2[month]);
-            System.out.println("Gross: " + gross2);
+            System.out.println("\nCutoff Date: " + monthName(month) + " 16-" + lastDay);
+            System.out.println("Total Hours Worked: " + hours2[month]);
+            System.out.println("Gross Pay: " + gross2);
 
             System.out.println("SSS: " + sss);
             System.out.println("PhilHealth: " + phil);
@@ -264,11 +267,8 @@ public class TrialPayrollSystem {
             System.out.println("Tax: " + tax);
 
             System.out.println("Total Deductions: " + totalDed);
-            System.out.println("Net: " + net2);
+            System.out.println("Net Pay: " + net2);
 
-            System.out.println("\nMonth Totals:");
-            System.out.println("Combined Gross: " + combinedGross);
-            System.out.println("Combined Net: " + (net1 + net2));
         }
     }
 
@@ -285,7 +285,7 @@ public class TrialPayrollSystem {
         LocalTime end = LocalTime.of(17, 0);
         LocalTime graceEnd = LocalTime.of(8, 10);
 
-        // Clamp to work window
+        // Force a value to stay inside work window/hours
         LocalTime in;
         if (actualIn.isBefore(start) || actualIn.equals(start)) in = start;
         else if (!actualIn.isAfter(graceEnd)) in = start; // <= 8:10 becomes 8:00
